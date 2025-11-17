@@ -1,7 +1,6 @@
 package dao;
 
 import model.Animal;
-import model.Ingresso;
 import util.ConnectionFactory;
 
 import java.sql.Connection;
@@ -39,6 +38,8 @@ public class AnimalDAO {
             //Executa a query
             pstm.execute();
 
+            System.out.println("Animal adicionado com sucesso!");
+
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -47,7 +48,7 @@ public class AnimalDAO {
         }
     }
 
-    public List<Animal> listarAnimal(){
+    public List<Animal> listarAnimais(){
 
         String sql = "SELECT * FROM animais";
 
@@ -171,7 +172,7 @@ public class AnimalDAO {
 
             pstm.setInt(1, id);
 
-            rset = pstm.executeQuery(sql);
+            rset = pstm.executeQuery();
 
             if(rset.next()){
                 animal = new Animal();
@@ -184,7 +185,7 @@ public class AnimalDAO {
                 // Recupera especie
                 animal.setEspecie(rset.getString("especie"));
                 // Recupera idade
-                animal.setIdade(rset.getInt("id"));
+                animal.setIdade(rset.getInt("idade"));
                 // Recupera habitat
                 animal.setHabitat(rset.getString("habitat"));
                 // Recupera alimentacao
@@ -276,7 +277,7 @@ public class AnimalDAO {
 
             pstm.executeUpdate();
 
-            System.out.println("Idade atualizada com sucesso!");
+            System.out.println("Animal atualizado com sucesso!");
         } catch (Exception e){
             e.printStackTrace();
         } finally {
@@ -284,7 +285,7 @@ public class AnimalDAO {
         }
     }
 
-    public void deletarIngressoPorId(int id){
+    public void deletarAnimalPorId(int id){
 
         String sql = "DELETE FROM animais WHERE id = ?";
 
@@ -299,7 +300,7 @@ public class AnimalDAO {
 
             pstm.executeUpdate();
 
-            System.out.println("animal deletado com sucesso!");
+            System.out.println("Animal deletado com sucesso!");
 
         } catch(Exception e){
             e.printStackTrace();

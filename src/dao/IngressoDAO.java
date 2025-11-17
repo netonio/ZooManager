@@ -96,9 +96,9 @@ public class IngressoDAO {
         return ingressos;
     }
 
-    public List<Ingresso> listarIngressos(String coluna, String filtro_palavra, Double filtro_preco, Integer filtro_quantidade) throws IllegalArgumentException {
+    public List<Ingresso> listarIngressos(String coluna, String filtro_palavra, Double filtro_preco) throws IllegalArgumentException {
 
-        Set<String> colunasValidas = Set.of("nome", "descricao", "preco", "quantidade");
+        Set<String> colunasValidas = Set.of("nome", "descricao", "preco");
 
         if (!colunasValidas.contains(coluna.toLowerCase())){
             throw new IllegalArgumentException("Coluna inválida! ");
@@ -129,13 +129,6 @@ public class IngressoDAO {
                 case "preco":
                     if (filtro_preco != 0) {
                         pstm.setDouble(1, filtro_preco);
-                    } else {
-                        throw new IllegalArgumentException("Filtro não pode ser vazio! ");
-                    }
-                    break;
-                case "quantidade":
-                    if (filtro_quantidade != 0) {
-                        pstm.setInt(1, filtro_quantidade);
                     } else {
                         throw new IllegalArgumentException("Filtro não pode ser vazio! ");
                     }
@@ -184,7 +177,7 @@ public class IngressoDAO {
 
             pstm.setInt(1, id);
 
-            rset = pstm.executeQuery(sql);
+            rset = pstm.executeQuery();
 
             if(rset.next()){
                 ingresso = new Ingresso();
@@ -228,7 +221,7 @@ public class IngressoDAO {
         }
     }
 
-    public void atualizarIngresso(int id, String coluna, String string_atualizada, Double preco_atualizado, Integer quantidade_atualizada) throws IllegalArgumentException {
+    public void atualizarIngresso(int id, String coluna, String string_atualizada, Double preco_atualizado) throws IllegalArgumentException {
 
         Set<String> colunasValidas = Set.of("nome", "descricao", "preco", "quantidade");
 
@@ -252,12 +245,6 @@ public class IngressoDAO {
                     throw new IllegalArgumentException("Preço inválido! ");
                 }
                 break;
-
-            case "quantidade":
-                if (quantidade_atualizada == null || quantidade_atualizada < 0) {
-                    throw new IllegalArgumentException("Quantidade inválida! ");
-                }
-                break;
         }
 
         String sql = "UPDATE ingressos SET " + coluna + " = ? WHERE id = ?";
@@ -275,9 +262,6 @@ public class IngressoDAO {
                     break;
                 case "preco":
                     pstm.setDouble(1, preco_atualizado);
-                    break;
-                case "quantidade":
-                    pstm.setInt(1, quantidade_atualizada);
                     break;
             }
             pstm.setInt(2, id);
