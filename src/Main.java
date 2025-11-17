@@ -56,9 +56,12 @@ public static void main(String[] args) {
                 email = sc.nextLine();
                 System.out.println("Informe a senha do usuário: ");
                 senha = sc.nextLine();
-                System.out.println("Informe a permissão do usuário (ADM/Cliente): ");
-                String tipo = sc.nextLine();
+                String tipo = "Cliente";
 
+                if (nome == null || nome.isBlank() || email == null || email.isBlank() || senha == null || senha.isBlank()){
+                    System.out.println("Operação inválida! Nenhum dos campos podem ser vazios.");
+                    break;
+                }
                 Usuario novo_usuario = new Usuario();
                 novo_usuario.setNome(nome);
                 novo_usuario.setEmail(email);
