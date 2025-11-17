@@ -253,7 +253,29 @@ public static void main(String[] args) {
                     System.out.println("Comprando...");
                     break;
 
-                case "4", "voltar", "v":
+                case "4", "compras", "vercompras":
+                    Compra c = compraDao.buscarPorId(usuario.getId());
+                    if(c == null){
+                        System.out.println("Operação inválida! Nenhuma compra encontrada. ");
+                        break;
+                    }
+
+                    Usuario nome_usuario = usuarioDao.buscarPorId(c.getId_usuario());
+                    Ingresso nome_ingresso = ingressoDao.buscarPorId(c.getId_ingresso());
+
+                    System.out.println("\n----------Ingresso " + contador + "----------");
+                    System.out.println("ID: " + c.getId());
+                    System.out.println("ID Cliente: " + c.getId_usuario());
+                    System.out.println("Nome cliente: " + nome_usuario.getNome());
+                    System.out.println("ID Ingresso: " + c.getId_ingresso());
+                    System.out.println("Nome ingresso: " + nome_ingresso.getNome());
+                    System.out.println("Quantidade: " + c.getQuantidade());
+                    System.out.println("Valor: " + c.getValor());
+
+                    contador++;
+                    break;
+
+                case "5", "voltar", "v":
                     System.out.println("Voltando...");
                     break;
 
