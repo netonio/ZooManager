@@ -14,7 +14,7 @@ public class ConnectionFactory {
     // Cria a conexão com o banco de dados
     public static Connection conectar() throws SQLException{
         return DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
-    };
+    }
 
     public static void fecharConexao(Connection conn, PreparedStatement pstm, ResultSet rset){
         try{

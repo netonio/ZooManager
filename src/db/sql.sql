@@ -1,0 +1,33 @@
+USE ZooManager;
+
+CREATE TABLE Animais(
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    categoria VARCHAR(50) NOT NULL,
+    especie VARCHAR(50) NOT NULL,
+    idade INTEGER NOT NULL,
+    habitat VARCHAR(50) NOT NULL,
+    alimentacao VARCHAR(50) NOT NULL,
+    descricao VARCHAR(100) NOT NULL);
+    
+CREATE TABLE Usuarios(
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(100) NOT NULL,
+    tipo VARCHAR(10) NOT NULL);
+    
+CREATE TABLE Ingressos(
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    preco FLOAT NOT NULL,
+    quantidade INTEGER NOT NULL);
+    
+CREATE TABLE Compras(
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
+    id_ingresso INTEGER NOT NULL,
+    quantidade INTEGER NOT NULL,
+    FOREIGN KEY(id_usuario) REFERENCES Usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY(id_ingresso) REFERENCES Ingressos(id) ON DELETE CASCADE);
