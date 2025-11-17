@@ -102,8 +102,9 @@ public class AnimalDAO {
         Set<String> colunasValidas = Set.of("nome", "descricao", "categoria", "especie", "habitat", "alimentacao");
 
         if (!colunasValidas.contains(coluna.toLowerCase())) {
-            throw new IllegalArgumentException("Coluna inválida! ");
+            throw new IllegalArgumentException("Operação invalida! Coluna inválida. ");
         }
+
         if (filtro_palavra == null || filtro_palavra.isBlank()) {
             throw new IllegalArgumentException("Filtro não pode ser vazio! ");
         }
@@ -156,7 +157,7 @@ public class AnimalDAO {
         return animais;
     }
 
-    public Animal buscarPorId(Integer id){
+    public Animal buscarPorId(Integer id) throws IllegalArgumentException {
 
         if(id == null || id <= 0){
             throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero");

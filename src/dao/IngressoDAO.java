@@ -101,7 +101,7 @@ public class IngressoDAO {
         Set<String> colunasValidas = Set.of("nome", "descricao", "preco");
 
         if (!colunasValidas.contains(coluna.toLowerCase())){
-            throw new IllegalArgumentException("Coluna inválida! ");
+            throw new IllegalArgumentException("Operação invalida! Coluna inválida. ");
         }
 
         String sql = "SELECT * FROM ingressos WHERE " + coluna + " = ?";
@@ -161,7 +161,7 @@ public class IngressoDAO {
         return ingressos;
     }
 
-    public Ingresso buscarPorId(Integer id){
+    public Ingresso buscarPorId(Integer id) throws IllegalArgumentException {
 
         if(id == null || id <= 0){
             throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero");

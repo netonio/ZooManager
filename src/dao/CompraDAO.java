@@ -1,5 +1,6 @@
 package dao;
 
+import model.Animal;
 import model.Compra;
 import model.Ingresso;
 import util.ConnectionFactory;
@@ -93,7 +94,7 @@ public class CompraDAO {
         return compras;
     }
 
-    public Compra buscarPorId(Integer id){
+    public Compra buscarPorId(Integer id) throws IllegalArgumentException {
 
         if(id == null || id <= 0){
             throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero");
@@ -129,6 +130,57 @@ public class CompraDAO {
             ConnectionFactory.fecharConexao(conn, pstm, rset);
         }
         return compra;
+    }
+
+    public List<Compra> buscarPorId(String coluna, Integer filtro_id) throws IllegalArgumentException {
+
+        Set<String> colunasValidas = Set.of("idcliente", "idingresso");
+
+        if (!colunasValidas.contains(coluna.toLowerCase())) {
+            throw new IllegalArgumentException("Operação invalida! Coluna inválida. ");
+        }
+
+        if(filtro_id == null || filtro_id <= 0){
+            throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero. ");
+        }
+
+        String sql;
+
+        if(coluna.equals("idcliente")){
+            sql = "SELECT * FROM compras WHERE id_cliente = ?";
+        } else {
+            sql = "SELECT * FROM compras WHERE id_ingresso = ?";
+        }
+
+        List<Compra> compras = new ArrayList<>();
+
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+
+        try {
+            conn = ConnectionFactory.conectar();
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setInt(1, filtro_id);
+
+            rset = pstm.executeQuery(sql);
+
+            while (rset.next()) {
+                Compra compra = new Compra();
+                compra.setId(rset.getInt("id"));
+                compra.setId_usuario(rset.getInt("id_usuario"));
+                compra.setId_ingresso(rset.getInt("id_ingresso"));
+                compra.setQuantidade(rset.getInt("quantidade"));
+
+                compras.add(compra);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            ConnectionFactory.fecharConexao(conn, pstm, rset);
+        }
+        return compras;
     }
 
     public void deletarCompraPorId(int id){

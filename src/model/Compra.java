@@ -5,6 +5,7 @@ public class Compra {
     private int id_usuario;
     private int id_ingresso;
     private int quantidade;
+    private double valor;
 
     public void setId(int id){
         this.id = id;
@@ -36,5 +37,13 @@ public class Compra {
 
     public int getQuantidade(){
         return this.quantidade;
+    }
+
+    public void setValor(double valor){
+        this.valor = quantidade;
+    }
+
+    public double getValor(){
+        return this.valor;
     }
 }

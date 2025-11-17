@@ -92,7 +92,7 @@ public class UsuarioDAO {
         Set<String> colunasValidas = Set.of("nome", "tipo");
 
         if (!colunasValidas.contains(coluna.toLowerCase())) {
-            throw new IllegalArgumentException("Coluna inválida! ");
+            throw new IllegalArgumentException("Operação invalida! Coluna inválida. ");
         }
 
         if (filtro_palavra == null || filtro_palavra.isBlank()) {
@@ -142,7 +142,7 @@ public class UsuarioDAO {
         return usuarios;
     }
 
-    public Usuario buscarPorId(Integer id){
+    public Usuario buscarPorId(Integer id) throws IllegalArgumentException {
 
         if(id == null || id <= 0){
             throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero");
@@ -181,7 +181,7 @@ public class UsuarioDAO {
         return usuario;
     }
 
-    public Usuario buscarPorEmail(String email){
+    public Usuario buscarPorEmail(String email) throws IllegalArgumentException {
 
         if(email == null || email.isBlank()){
             throw new IllegalArgumentException("Operação invalida! O email não pode ser nulo");

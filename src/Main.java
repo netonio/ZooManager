@@ -394,6 +394,7 @@ public static void main(String[] args) {
                                             break;
 
                                         default:
+
                                             System.out.println("Opção inválida! Escolha uma opção válida.");
                                             break;
                                     }
@@ -1002,7 +1003,104 @@ public static void main(String[] args) {
 
                         switch (escolha){
                             case "1", "vercompras", "ver":
+                                System.out.println("Gostaria de aplicar algum filtro? (s/n)");
+                                String filtrar_compra = sc.nextLine().toLowerCase().trim();
+
+                                if (filtrar_compra.equals("s")) {
+                                    System.out.println("[1] - ID" +
+                                            "\n[2] - ID Cliente" +
+                                            "\n[3] - ID Ingresso" +
+                                            "\n[4] - Voltar ao menu anterior" +
+                                            "\nDigite o nome da coluna que deseja aplicar o filtro: ");
+                                    String coluna_filtro = sc.nextLine().toLowerCase().trim();
+                                    int compra_filtro;
+
+                                    switch (coluna_filtro) {
+                                        case "id":
+                                            System.out.println("Qual ID?");
+                                            compra_filtro = sc.nextInt();
+                                            sc.nextLine();
+
+                                            Compra c = compraDao.buscarPorId(compra_filtro);
+                                            if(c == null){
+                                                System.out.println("Operação inválida! Nenhuma compra ingresso encontrado. ");
+                                                break;
+                                            }
+
+                                            Usuario nome_usuario = usuarioDao.buscarPorId(c.getId_usuario());
+                                            Ingresso nome_ingresso = ingressoDao.buscarPorId(c.getId_ingresso());
+
+                                            System.out.println("\n----------Ingresso----------");
+                                            System.out.println("ID: " + c.getId());
+                                            System.out.println("ID Cliente: " + c.getId_usuario());
+                                            System.out.println("Nome cliente: " + nome_usuario.getNome());
+                                            System.out.println("ID Ingresso: " + c.getId_ingresso());
+                                            System.out.println("Nome ingresso: " + nome_ingresso.getNome());
+                                            System.out.println("Quantidade: " + c.getQuantidade());
+                                            System.out.println("Valor: " + c.getValor());
+                                            break;
+
+                                        case "idcliente", "cliente", "idingresso", "ingresso":
+                                            System.out.println("Qual ID?");
+                                            int filtro_id = sc.nextInt();
+                                            sc.nextLine();
+
+                                            for(Compra d : compraDao.buscarPorId(coluna_filtro, filtro_id)){
+                                                if(d == null){
+                                                    System.out.println("Operação inválida! Nenhuma compra encontrado. ");
+                                                    break;
+                                                }
+
+                                                Usuario nome_usuario2 = usuarioDao.buscarPorId(d.getId_usuario());
+                                                Ingresso nome_ingresso2 = ingressoDao.buscarPorId(d.getId_ingresso());
+
+                                                System.out.println("\n----------Ingresso----------");
+                                                System.out.println("ID: " + d.getId());
+                                                System.out.println("ID Cliente: " + d.getId_usuario());
+                                                System.out.println("Nome cliente: " + nome_usuario2.getNome());
+                                                System.out.println("ID Ingresso: " + d.getId_ingresso());
+                                                System.out.println("Nome ingresso: " + nome_ingresso2.getNome());
+                                                System.out.println("Quantidade: " + d.getQuantidade());
+                                                System.out.println("Valor: " + d.getValor());
+
+                                                contador++;
+                                            }
+                                            break;
+
+                                        case "voltar", "v":
+                                            System.out.println("Voltando...");
+                                            break;
+
+                                        default:
+                                            System.out.println("Opção inválida! Escolha uma opção válida.");
+                                            break;
+                                    }
+
+                                } else {
+                                    for(Compra c : compraDao.listarCompras()){
+                                        if(c == null){
+                                            System.out.println("Operação inválida! Nenhuma compra encontrado. ");
+                                            break;
+                                        }
+                                        Usuario nome_usuario = usuarioDao.buscarPorId(c.getId_usuario());
+                                        Ingresso nome_ingresso = ingressoDao.buscarPorId(c.getId_ingresso());
+
+                                        System.out.println("\n----------Ingresso----------");
+                                        System.out.println("ID: " + c.getId());
+                                        System.out.println("ID Cliente: " + c.getId_usuario());
+                                        System.out.println("Nome cliente: " + nome_usuario.getNome());
+                                        System.out.println("ID Ingresso: " + c.getId_ingresso());
+                                        System.out.println("Nome ingresso: " + nome_ingresso.getNome());
+                                        System.out.println("Quantidade: " + c.getQuantidade());
+                                        System.out.println("Valor: " + c.getValor());
+
+                                        contador++;
+                                    }
+                                }
+                                break;
+
                             case "2", "deletarcompras", "deletar", "d":
+
                             case "3", "voltar", "v":
                                 System.out.println("Voltando...");
                                 break;
