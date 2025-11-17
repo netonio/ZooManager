@@ -156,7 +156,11 @@ public class AnimalDAO {
         return animais;
     }
 
-    public Animal buscarPorId(int id){
+    public Animal buscarPorId(Integer id){
+
+        if(id == null || id <= 0){
+            throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero");
+        }
 
         String sql = "SELECT * FROM animais WHERE id = ?";
 

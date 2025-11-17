@@ -142,7 +142,11 @@ public class UsuarioDAO {
         return usuarios;
     }
 
-    public Usuario buscarPorId(int id){
+    public Usuario buscarPorId(Integer id){
+
+        if(id == null || id <= 0){
+            throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero");
+        }
 
         String sql = "SELECT * FROM usuarios WHERE id = ?";
 
@@ -178,6 +182,10 @@ public class UsuarioDAO {
     }
 
     public Usuario buscarPorEmail(String email){
+
+        if(email == null || email.isBlank()){
+            throw new IllegalArgumentException("Operação invalida! O email não pode ser nulo");
+        }
 
         String sql = "SELECT * FROM usuarios WHERE email = ?";
 

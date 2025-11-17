@@ -93,7 +93,11 @@ public class CompraDAO {
         return compras;
     }
 
-    public Compra buscarPorId(int id){
+    public Compra buscarPorId(Integer id){
+
+        if(id == null || id <= 0){
+            throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero");
+        }
 
         String sql = "SELECT * FROM compras WHERE id = ?";
 

@@ -161,7 +161,11 @@ public class IngressoDAO {
         return ingressos;
     }
 
-    public Ingresso buscarPorId(int id){
+    public Ingresso buscarPorId(Integer id){
+
+        if(id == null || id <= 0){
+            throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero");
+        }
 
         String sql = "SELECT * FROM ingressos WHERE id = ?";
 
