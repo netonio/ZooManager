@@ -88,7 +88,8 @@ public static void main(String[] args) {
             System.out.println("[1] - Ver animais" +
                     "\n[2] - Ver ingressos" +
                     "\n[3] - Comprar ingressos" +
-                    "\n[4] - Voltar ao menu anterior" +
+                    "\n[4] - Ver compras" +
+                    "\n[5] - Voltar ao menu anterior" +
                     "\n[0] - Sair" +
                     "\nEscolha uma das opções acima: ");
 
@@ -1100,6 +1101,35 @@ public static void main(String[] args) {
                                 break;
 
                             case "2", "deletarcompras", "deletar", "d":
+                                System.out.println("Qual ID da compra que você quer deletar? ");
+                                int id_compra_deletar = sc.nextInt();
+                                sc.nextLine();
+
+                                Compra compra_deletar = compraDao.buscarPorId(id_compra_deletar);
+                                if(compra_deletar == null){
+                                    System.out.println("Operação inválida! Nenhuma compra encontrado. ");
+                                    break;
+                                }
+
+                                Usuario nome_usuario = usuarioDao.buscarPorId(compra_deletar.getId_usuario());
+                                Ingresso nome_ingresso = ingressoDao.buscarPorId(compra_deletar.getId_ingresso());
+
+                                System.out.println("\n----------Ingresso----------");
+                                System.out.println("ID: " + compra_deletar.getId());
+                                System.out.println("ID Cliente: " + compra_deletar.getId_usuario());
+                                System.out.println("Nome cliente: " + nome_usuario.getNome());
+                                System.out.println("ID Ingresso: " + compra_deletar.getId_ingresso());
+                                System.out.println("Nome ingresso: " + nome_ingresso.getNome());
+                                System.out.println("Quantidade: " + compra_deletar.getQuantidade());
+                                System.out.println("Valor: " + compra_deletar.getValor());
+                                String deletar = sc.nextLine().toLowerCase().trim();
+
+                                if (deletar.equals("s")) {
+                                    animalDao.deletarAnimalPorId(id_compra_deletar);
+                                } else {
+                                    System.out.println("A compra não foi deletada! ");
+                                }
+                                break;
 
                             case "3", "voltar", "v":
                                 System.out.println("Voltando...");
