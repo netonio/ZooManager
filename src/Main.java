@@ -117,6 +117,8 @@ public static void main(String[] args) {
                                 System.out.println("Qual filtro?");
                                 animal_filtro = sc.nextLine().toLowerCase().trim();
 
+                                contador = 1;
+
                                 for(Animal a : animalDao.listarAnimais(coluna_filtro, animal_filtro)){
                                     if(a == null){
                                         System.out.println("Nenhum animal encontrado! ");
@@ -145,6 +147,7 @@ public static void main(String[] args) {
                                 break;
                         }
                     } else {
+                        contador = 1;
                         for(Animal a : animalDao.listarAnimais()){
                             if(a == null){
                                 System.out.println("Nenhum animal encontrado! ");
@@ -183,6 +186,8 @@ public static void main(String[] args) {
                                 System.out.println("Qual filtro?");
                                 ingresso_filtro = sc.nextLine().toLowerCase().trim();
 
+                                contador = 1;
+
                             for(Ingresso i : ingressoDao.listarIngressos(coluna_filtro, ingresso_filtro, null)){
                                 if(i == null){
                                     System.out.println("Nenhum animal encontrado! ");
@@ -203,6 +208,8 @@ public static void main(String[] args) {
                                 System.out.println("Qual preço?");
                                 double filtro_preco = sc.nextDouble();
                                 sc.nextLine();
+
+                                contador = 1;
 
                                 for(Ingresso i : ingressoDao.listarIngressos(coluna_filtro, null, filtro_preco)){
                                     if(i == null){
@@ -231,6 +238,7 @@ public static void main(String[] args) {
                         }
 
                     } else {
+                        contador = 1;
                         for(Ingresso i : ingressoDao.listarIngressos()){
                             if(i == null){
                                 System.out.println("Nenhum animal encontrado! ");
@@ -255,24 +263,28 @@ public static void main(String[] args) {
 
                 case "4", "compras", "vercompras":
                     Compra c = compraDao.buscarPorId(usuario.getId());
-                    if(c == null){
-                        System.out.println("Operação inválida! Nenhuma compra encontrada. ");
-                        break;
+
+                    contador = 1;
+                    for(Ingresso i : ingressoDao.listarIngressos()) {
+                        if (c == null) {
+                            System.out.println("Operação inválida! Nenhuma compra encontrada. ");
+                            break;
+                        }
+
+                        Usuario nome_usuario = usuarioDao.buscarPorId(c.getId_usuario());
+                        Ingresso nome_ingresso = ingressoDao.buscarPorId(c.getId_ingresso());
+
+                        System.out.println("\n----------Ingresso " + contador + "----------");
+                        System.out.println("ID: " + c.getId());
+                        System.out.println("ID Cliente: " + c.getId_usuario());
+                        System.out.println("Nome cliente: " + nome_usuario.getNome());
+                        System.out.println("ID Ingresso: " + c.getId_ingresso());
+                        System.out.println("Nome ingresso: " + nome_ingresso.getNome());
+                        System.out.println("Quantidade: " + c.getQuantidade());
+                        System.out.println("Valor: " + c.getValor());
+
+                        contador++;
                     }
-
-                    Usuario nome_usuario = usuarioDao.buscarPorId(c.getId_usuario());
-                    Ingresso nome_ingresso = ingressoDao.buscarPorId(c.getId_ingresso());
-
-                    System.out.println("\n----------Ingresso " + contador + "----------");
-                    System.out.println("ID: " + c.getId());
-                    System.out.println("ID Cliente: " + c.getId_usuario());
-                    System.out.println("Nome cliente: " + nome_usuario.getNome());
-                    System.out.println("ID Ingresso: " + c.getId_ingresso());
-                    System.out.println("Nome ingresso: " + nome_ingresso.getNome());
-                    System.out.println("Quantidade: " + c.getQuantidade());
-                    System.out.println("Valor: " + c.getValor());
-
-                    contador++;
                     break;
 
                 case "5", "voltar", "v":
@@ -392,6 +404,7 @@ public static void main(String[] args) {
                                             System.out.println("Qual filtro?");
                                             animal_filtro = sc.nextLine().toLowerCase().trim();
 
+                                            contador = 1;
                                             for(Animal b : animalDao.listarAnimais(coluna_filtro, animal_filtro)){
                                                 if(b == null){
                                                     System.out.println("Nenhum animal encontrado! ");
@@ -635,6 +648,8 @@ public static void main(String[] args) {
                                             System.out.println("Qual filtro?");
                                             usuario_filtro = sc.nextLine();
 
+                                            contador = 1;
+
                                             for(Usuario b : usuarioDao.listarUsuarios(coluna_filtro, usuario_filtro)){
                                                 if(b == null){
                                                     System.out.println("Nenhum usuário encontrado! ");
@@ -675,6 +690,9 @@ public static void main(String[] args) {
                                             break;
                                     }
                                 } else if (filtrar_usuario.equals("n")) {
+
+                                    contador = 1;
+
                                     for(Usuario a : usuarioDao.listarUsuarios()){
                                         if(a == null){
                                             System.out.println("Nenhum usuário encontrado! ");
@@ -844,6 +862,7 @@ public static void main(String[] args) {
                                             System.out.println("Qual filtro?");
                                             ingresso_filtro = sc.nextLine().toLowerCase().trim();
 
+                                            contador = 1;
                                             for(Ingresso i : ingressoDao.listarIngressos(coluna_filtro, ingresso_filtro, null)){
                                                 if(i == null){
                                                     System.out.println("Operação inválida! Nenhum ingresso encontrado. ");
@@ -864,6 +883,8 @@ public static void main(String[] args) {
                                             System.out.println("Qual preço?");
                                             double filtro_preco = sc.nextDouble();
                                             sc.nextLine();
+
+                                            contador = 1;
 
                                             for(Ingresso i : ingressoDao.listarIngressos(coluna_filtro, null, filtro_preco)){
                                                 if(i == null){
@@ -891,6 +912,9 @@ public static void main(String[] args) {
                                     }
 
                                 } else {
+
+                                    contador = 1;
+
                                     for(Ingresso i : ingressoDao.listarIngressos()){
                                         if(i == null){
                                             System.out.println("Operação inválida! Nenhum ingresso encontrado. ");
@@ -1068,6 +1092,7 @@ public static void main(String[] args) {
                                             int filtro_id = sc.nextInt();
                                             sc.nextLine();
 
+                                            contador = 1;
                                             for(Compra d : compraDao.buscarPorId(coluna_filtro, filtro_id)){
                                                 if(d == null){
                                                     System.out.println("Operação inválida! Nenhuma compra encontrado. ");
@@ -1100,6 +1125,9 @@ public static void main(String[] args) {
                                     }
 
                                 } else {
+
+                                    contador = 1;
+
                                     for(Compra c : compraDao.listarCompras()){
                                         if(c == null){
                                             System.out.println("Operação inválida! Nenhuma compra encontrado. ");
