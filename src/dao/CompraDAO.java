@@ -1,8 +1,6 @@
 package dao;
 
-import model.Animal;
-import model.Compra;
-import model.Ingresso;
+import model.*;
 import util.ConnectionFactory;
 
 import java.sql.Connection;
@@ -16,7 +14,7 @@ public class CompraDAO {
 
     public void salvarCompra(Compra compra) {
 
-        String sql = "INSERT INTO compras (id_usuario, id_ingresso, quantidade) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO compras (id_usuario, id_ingresso, quantidade, valor) VALUES (?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -32,23 +30,15 @@ public class CompraDAO {
             pstm.setInt(1,compra.getId_usuario());
             pstm.setInt(2,compra.getId_ingresso());
             pstm.setInt(3, compra.getQuantidade());
+            pstm.setDouble(4, compra.getValor());
 
             //Executa a query
-            pstm.execute();
+            pstm.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (pstm != null) {
-                    pstm.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+            ConnectionFactory.fecharConexao(conn, pstm);
         }
     }
 
@@ -82,7 +72,6 @@ public class CompraDAO {
                 // Recupera Quantidade
                 compra.setQuantidade(rset.getInt("quantidade"));
 
-
                 compras.add(compra);
             }
         } catch (Exception e){
@@ -114,7 +103,7 @@ public class CompraDAO {
 
             pstm.setInt(1, id);
 
-            rset = pstm.executeQuery(sql);
+            rset = pstm.executeQuery();
 
             if(rset.next()){
                 compra = new Compra();
@@ -134,23 +123,18 @@ public class CompraDAO {
 
     public List<Compra> buscarPorId(String coluna, Integer filtro_id) throws IllegalArgumentException {
 
-        Set<String> colunasValidas = Set.of("idcliente", "idingresso");
+        Set<String> colunasValidas = Set.of("idusuario", "idingresso", "id_usuario", "id_ingresso");
 
-        if (!colunasValidas.contains(coluna.toLowerCase())) {
-            throw new IllegalArgumentException("Operação invalida! Coluna inválida. ");
+        if (!colunasValidas.contains(coluna)) {
+            throw new IllegalArgumentException("Operação inválida! Coluna de busca inválida: " + coluna);
         }
 
         if(filtro_id == null || filtro_id <= 0){
-            throw new IllegalArgumentException("Operação invalida! ID não pode ser nulo ou menor que zero. ");
+            throw new IllegalArgumentException("Operação inválida! ID não pode ser nulo ou menor que zero.");
         }
 
-        String sql;
-
-        if(coluna.equals("idcliente")){
-            sql = "SELECT * FROM compras WHERE id_cliente = ?";
-        } else {
-            sql = "SELECT * FROM compras WHERE id_ingresso = ?";
-        }
+        String colunaCerta = coluna.equals("idusuario") || coluna.equals("id_usuario") ? "id_usuario" : "id_ingresso";
+        String sql = "SELECT * FROM compras WHERE " + colunaCerta + " = ?";
 
         List<Compra> compras = new ArrayList<>();
 
@@ -162,9 +146,11 @@ public class CompraDAO {
             conn = ConnectionFactory.conectar();
             pstm = conn.prepareStatement(sql);
 
+            // 3. Setar o parâmetro
             pstm.setInt(1, filtro_id);
 
-            rset = pstm.executeQuery(sql);
+            // 4. Executar a query SEM ARGUMENTOS
+            rset = pstm.executeQuery();
 
             while (rset.next()) {
                 Compra compra = new Compra();
@@ -172,9 +158,11 @@ public class CompraDAO {
                 compra.setId_usuario(rset.getInt("id_usuario"));
                 compra.setId_ingresso(rset.getInt("id_ingresso"));
                 compra.setQuantidade(rset.getInt("quantidade"));
+                compra.setValor(rset.getDouble("valor"));
 
                 compras.add(compra);
             }
+
         } catch (Exception e){
             e.printStackTrace();
         } finally {

@@ -40,7 +40,7 @@ public class Compra {
     }
 
     public void setValor(double valor){
-        this.valor = quantidade;
+        this.valor = valor;
     }
 
     public double getValor(){

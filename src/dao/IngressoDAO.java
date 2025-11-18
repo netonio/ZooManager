@@ -13,7 +13,7 @@ import java.util.Set;
 public class IngressoDAO {
     public void salvarIngresso(Ingresso ingresso) {
 
-        String sql = "INSERT INTO ingressos (nome, descricao, preco, quantidade) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO ingressos (nome, descricao, preco) VALUES (?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -29,7 +29,6 @@ public class IngressoDAO {
             pstm.setString(1, ingresso.getNome());
             pstm.setString(2, ingresso.getDescricao());
             pstm.setDouble(3, ingresso.getPreco());
-            pstm.setInt(4, ingresso.getQuantidade());
 
             //Executa a query
             pstm.execute();
@@ -82,8 +81,6 @@ public class IngressoDAO {
                 ingresso.setDescricao(rset.getString("descricao"));
                 // Recupera preço
                 ingresso.setPreco(rset.getDouble("preco"));
-                // Recupera quantidade
-                ingresso.setQuantidade(rset.getInt("quantidade"));
 
                 ingressos.add(ingresso);
             }
@@ -147,8 +144,6 @@ public class IngressoDAO {
                 ingresso.setDescricao(rset.getString("descricao"));
                 // Recupera preco
                 ingresso.setPreco(rset.getDouble("preco"));
-                // Recupera quantidade
-                ingresso.setQuantidade(rset.getInt("quantidade"));
 
                 ingressos.add(ingresso);
             }
@@ -189,7 +184,6 @@ public class IngressoDAO {
                 ingresso.setNome(rset.getString("nome"));
                 ingresso.setDescricao(rset.getString("descricao"));
                 ingresso.setPreco(rset.getDouble("preco"));
-                ingresso.setQuantidade(rset.getInt("quantidade"));
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -213,7 +207,6 @@ public class IngressoDAO {
             pstm.setString(1, ingresso.getNome());
             pstm.setString(2, ingresso.getDescricao());
             pstm.setDouble(3, ingresso.getPreco());
-            pstm.setInt(4, ingresso.getQuantidade());
 
             pstm.executeUpdate();
 
@@ -227,7 +220,7 @@ public class IngressoDAO {
 
     public void atualizarIngresso(int id, String coluna, String string_atualizada, Double preco_atualizado) throws IllegalArgumentException {
 
-        Set<String> colunasValidas = Set.of("nome", "descricao", "preco", "quantidade");
+        Set<String> colunasValidas = Set.of("nome", "descricao", "preco");
 
         if (!colunasValidas.contains(coluna.toLowerCase())){
             throw new IllegalArgumentException("Coluna inválida! ");

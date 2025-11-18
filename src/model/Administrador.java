@@ -1,0 +1,16 @@
+package model;
+
+import view.Menu;
+
+public class Administrador extends Usuario{
+
+    public Administrador(int id, String nome, String email, String senha){
+        // Passa os valores para a classe mãe, definindo o tipo como "Cliente"
+        super(id, nome, email, senha, "Cliente");
+    }
+
+    @Override
+    public void mostrarMenuPrincipal(Menu menu) {
+        menu.menuAdm();
+    }
+}
